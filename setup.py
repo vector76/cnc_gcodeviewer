@@ -21,7 +21,7 @@ plugin_version = "1.0"
 plugin_description = "Modified version of Octoprint's default gcode viewer, intended for CNC machines"
 
 # The plugin's author. Can be overwritten within OctoPrint's internal data via __plugin_author__ in the plugin module
-plugin_author = "Gina H‰uﬂge, small modification by Jamie Kawabata"
+plugin_author = "Gina H√§u√üge, small modification by Jamie Kawabata"
 
 # The plugin's author's mail address.
 plugin_author_email = "vector76@gmail.com"
