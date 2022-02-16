@@ -353,6 +353,9 @@ var doParse = function () {
     var activeToolOffset = toolOffsets[0];
 
     var i, j, args;
+    
+    var lowest_z = 9999999;   // keep track of lowest z we've ever seen
+    var at_lowest_z = false; // are we currently at the lowest z ever?
 
     model = [];
     for (i = 0; i < gcode.length; i++) {
@@ -367,7 +370,7 @@ var doParse = function () {
         var line = gcode[i].line;
         var percentage = gcode[i].percentage;
 
-        extrude = false;
+        extrude = at_lowest_z;  // if we are at the lowest z ever, that counts as "extruding" for rendering purposes
         line = line.split(/[\(;]/)[0];
 
         if (!line || line.trim() === "") {
@@ -380,7 +383,7 @@ var doParse = function () {
 
         var log = false;
 
-        if (/^(?:G0|G1|G2|G3)(\.\d+)?\s/i.test(line)) {
+        if (/^(?:G0|G1|G2|G3|G00|G01)(\.\d+)?\s/i.test(line)) {
             args = line.split(/\s/);
 
             for (j = 0; j < args.length; j++) {
@@ -409,6 +412,10 @@ var doParse = function () {
                         } else {
                             z = Number(args[j].slice(1));
                         }
+                        
+                        lowest_z = Math.min(lowest_z, z);  // potentially update lowest z ever
+                        at_lowest_z = z == lowest_z;  // maintain status if we are at lowest z
+                        extrude = at_lowest_z;        // update extrusion to match if we are at lowest z
 
                         break;
 
