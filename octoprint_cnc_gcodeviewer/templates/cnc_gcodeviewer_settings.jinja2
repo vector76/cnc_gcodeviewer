@@ -1,0 +1,32 @@
+<h3>{{ _("GCode Viewer") }}</h3>
+<form class="form-horizontal" onsubmit="return false;">
+    <div class="control-group" title="{{ _('Maximum size for which the GCode Viewer autoloads the file for preview')|edq }}">
+        <label class="control-label" for="settings-cnc_gcodeviewer-featureSizeThreshold">{{ _('GCode Viewer file size threshold') }}</label>
+        <div class="controls">
+            <div class="input-append">
+                <input type="text" class="input-mini text-right" data-bind="value: sizeThresholdStr" id="settings-cnc_gcodeviewer-featureSizeThreshold">
+            </div>
+            <span class="help-inline">{{ _('on desktop')}}</span>
+        </div>
+        <div class="controls">
+            <div class="input-append">
+                 <input type="text" class="input-mini text-right" data-bind="value: mobileSizeThresholdStr">
+            </div>
+            <span class="help-inline">{{ _('on mobile')}}</span>
+        </div>
+        <div class="controls">
+            <span class="help-inline">
+                {% trans %}Provide values including size unit. Allowed units are: b, byte, bytes, kb, mb, gb, tb (case insensitive). Example: <code>5MB</code>, <code>500KB</code>{% endtrans %}
+            </span>
+        </div>
+    </div>
+    <div class="control-group" title="{{ _('Skip/hide gcode until this string')}}">
+        <label class="control-label" for="settings-cnc_gcodeviewer-skipUntilThis">{{ _('Skip to this') }}</label>
+        <div class="controls">
+            <input type="text" class="input-block-level" data-bind="value: settings.settings.plugins.cnc_gcodeviewer.skipUntilThis" id="settings-cnc_gcodeviewer-skipUntilThis" placeholder="; layer 1">
+            <span class="help-inline">
+                {% trans %}If provided, the GCode Viewer will search for a line beginning with this string. If found, all GCode up to that point will be skipped. This can be used to skip "purge/nozzle wipe" GCode in the viewer. Note the search is case sensitive. Example: <code>; layer 1</code>{% endtrans %}
+            </span>
+        </div>
+    </div>
+</form>
