@@ -72,7 +72,7 @@ class CncGcodeviewerPlugin(
 
 
 __plugin_name__ = gettext("CNC GCode Viewer")
-__plugin_author__ = "Gina Häußge, small modification by Jamie Kawabata"
+__plugin_author__ = "Jamie Kawabata"
 __plugin_description__ = "Provides a GCODE viewer in OctoPrint's UI."
 __plugin_disabling_discouraged__ = gettext(
     "Without this plugin the GCode Viewer in OctoPrint will no longer be " "available."
