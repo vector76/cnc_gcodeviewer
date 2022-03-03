@@ -1,5 +1,5 @@
 $(function () {
-    function GcodeViewModel(parameters) {
+    function CncGcodeViewModel(parameters) {
         var self = this;
 
         self.loginState = parameters[0];
@@ -355,9 +355,9 @@ $(function () {
                 self.settings.settings.plugins.cnc_gcodeviewer.mobileSizeThreshold
             );
 
-            var layerSliderElement = $("#gcode_slider_layers");
-            var commandSliderElement = $("#gcode_slider_commands");
-            var containerElement = $("#gcode_canvas");
+            var layerSliderElement = $("#cncgcode_slider_layers");
+            var commandSliderElement = $("#cncgcode_slider_commands");
+            var containerElement = $("#cncgcode_canvas");
 
             if (
                 !(
@@ -374,7 +374,7 @@ $(function () {
 
             self.settings.firstRequest.done(function () {
                 var initResult = GCODE.ui.init({
-                    container: "#gcode_canvas",
+                    container: "#cncgcode_canvas",
                     onProgress: self._onProgress,
                     onModelLoaded: self._onModelLoaded,
                     onLayerSelected: self._onLayerSelected,
@@ -859,7 +859,7 @@ $(function () {
         };
 
         self.onTabChange = function (current, previous) {
-            self.tabActive = current === "#gcode";
+            self.tabActive = current === "#cncgcode";
             if (self.tabActive && self.needsLoad) {
                 self.loadFile(self.selectedFile.path(), self.selectedFile.date());
             }
@@ -957,8 +957,8 @@ $(function () {
     }
 
     OCTOPRINT_VIEWMODELS.push({
-        construct: GcodeViewModel,
+        construct: CncGcodeViewModel,
         dependencies: ["loginStateViewModel", "settingsViewModel", "accessViewModel"],
-        elements: ["#gcode", "#gcode_link", "#settings_plugin_cnc_gcodeviewer"]
+        elements: ["#cncgcode", "#cncgcode_link", "#settings_plugin_cnc_gcodeviewer"]
     });
 });

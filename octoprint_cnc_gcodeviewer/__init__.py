@@ -36,6 +36,8 @@ class CncGcodeviewerPlugin(
                 "div": "gcode",
                 "styles": ["display: none;"],
                 "data_bind": "visible: loginState.hasAllPermissionsKo(access.permissions.GCODE_VIEWER, access.permissions.FILES_DOWNLOAD)",
+                "replaces": "plugin_gcodeviewer",
+                "name":"CNC Gcode Viewer",
             },
             {
                 "type": "settings",
