@@ -15,8 +15,8 @@ You may install through the plugin manager by installing from this URL:
 
   https://github.com/vector76/cnc_gcodeviewer/archive/main.zip
 
-(Optional) You may wish to disable the native Octoprint GCode Viewer, or else the UI will try to 
-show both tabs, which may become confusing.
+Note: this replaces the native GCode Viewer.
 
 # Release notes
-- 1.0: initial version, no bells or whistles, minimal deviation from native GCode Viewer plugin
+- 1.0.1: Now uses replaces-viewmodel approach, so native GCode Viewer doesn't need to be disabled
+- 1.0.0: Initial version, no bells or whistles, minimal deviation from native GCode Viewer plugin
