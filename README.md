@@ -18,5 +18,8 @@ You may install through the plugin manager by installing from this URL:
 Note: this replaces the native GCode Viewer.
 
 # Release notes
+- 1.0.2:
+  - Tolerates gcode without spaces between words
+  - Produces a layer even if there are no Z movements (movements prior to any Z movements are treated as Z=0)
 - 1.0.1: Now uses replaces-viewmodel approach, so native GCode Viewer doesn't need to be disabled
 - 1.0.0: Initial version, no bells or whistles, minimal deviation from native GCode Viewer plugin

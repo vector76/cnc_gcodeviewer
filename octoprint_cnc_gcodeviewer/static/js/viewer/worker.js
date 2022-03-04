@@ -314,6 +314,28 @@ var analyzeModel = function () {
     sendAnalyzeDone();
 };
 
+var gcode_split_rejoin = function(line) {
+  // assume comments have already been stripped out
+  line = line.trim().toUpperCase();
+  var parts = [];
+  // tolerates with or without spaces between words, but does not handle bizarre spacing like 'X3. 1415'
+  var matches = line.match(/^([A-Z]\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
+  while (matches) {
+    parts.push(matches[1]);
+    line = matches[2];  // second matching group is the rest of the line
+    line = line.trim();
+    if (line == "") {
+      break;
+    }
+    matches = line.match(/^([A-Z]\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
+  }
+
+  if (line != "") {
+    parts.push(line);  // rest of the junk that failed parsing goes onto the end of the line
+  }
+  return parts.join(" ");
+}
+
 var doParse = function () {
     var argChar, numSlice;
     var sendLayer = undefined;
@@ -355,7 +377,7 @@ var doParse = function () {
     var i, j, args;
     
     var lowest_z = 9999999;   // keep track of lowest z we've ever seen
-    var at_lowest_z = false; // are we currently at the lowest z ever?
+    var at_lowest_z = true; // are we currently at the lowest z ever?
 
     model = [];
     for (i = 0; i < gcode.length; i++) {
@@ -377,6 +399,8 @@ var doParse = function () {
             // empty line, skip entirely
             continue;
         }
+
+        line = gcode_split_rejoin(line);  // handle unusual spacing by preprocessing
 
         var addToModel = false;
         var move = false;
@@ -636,6 +660,10 @@ var doParse = function () {
             } else {
                 layer = model.length;
                 z_heights[prevZ] = layer;
+                if (layer == 0) {
+                    sendLayer = layer;
+                    sendLayerZ = prevZ;
+                }
             }
         }
 
