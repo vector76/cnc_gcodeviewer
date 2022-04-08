@@ -309,7 +309,12 @@ var analyzeModel = function () {
     modelSize.x = Math.abs(max.x - min.x);
     modelSize.y = Math.abs(max.y - min.y);
     modelSize.z = Math.abs(max.z - min.z);
-    layerHeight = (max.z - min.z) / (layerCnt - 1);
+    if (layerCnt > 1) {
+      layerHeight = (max.z - min.z) / (layerCnt - 1);
+    }
+    else {
+      layerHeight = 0;
+    }
 
     sendAnalyzeDone();
 };

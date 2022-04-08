@@ -438,7 +438,7 @@ $(function () {
         self._configureLayerSlider = function (layerSliderElement) {
             self.layerSlider = layerSliderElement
                 .slider({
-                    id: "gcode_layer_slider",
+                    id: "cncgcode_layer_slider",
                     reversed: true,
                     selection: "after",
                     orientation: "vertical",
@@ -463,7 +463,7 @@ $(function () {
         self._configureLayerCommandSlider = function (commandSliderElement) {
             self.layerCommandSlider = commandSliderElement
                 .slider({
-                    id: "gcode_command_slider",
+                    id: "cncgcode_command_slider",
                     orientation: "horizontal",
                     min: 0,
                     max: 1,
@@ -692,7 +692,13 @@ $(function () {
                 self.maxLayer = model.layersActive - 1;
                 if (self.layerSlider !== undefined) {
                     self.layerSlider.slider("enable");
-                    self.layerSlider.slider("setMax", self.maxLayer);
+                    if (self.maxLayer >= 1) {
+                      self.layerSlider.slider("setMax", self.maxLayer);
+                    }
+                    else {
+                      // allows selecting nonexistent second layer but won't die with NaNs
+                      self.layerSlider.slider("setMax", 1);
+                    }
                     self.layerSlider.slider("setValue", 0);
                     self.layerSelectionEnabled(true);
                     self.layerDownEnabled(false);

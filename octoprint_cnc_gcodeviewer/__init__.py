@@ -33,10 +33,9 @@ class CncGcodeviewerPlugin(
             {
                 "type": "tab",
                 "template": "cnc_gcodeviewer_tab.jinja2",
-                "div": "gcode",
+                "div": "cncgcode",
                 "styles": ["display: none;"],
                 "data_bind": "visible: loginState.hasAllPermissionsKo(access.permissions.GCODE_VIEWER, access.permissions.FILES_DOWNLOAD)",
-                "replaces": "plugin_gcodeviewer",
                 "name":"CNC Gcode Viewer",
             },
             {
