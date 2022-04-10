@@ -24,6 +24,11 @@ Viewer so it didn't need to be disabled.  Apparently I wasn't smart enough to ge
 problems, so now the built-in GCode Viewer plugin must be disabled.
 
 # Release notes
+- 1.0.4:
+  - No longer uses "lowest Z" to determine "extruding" (black) vs. travel (green) movements
+  - Now treats G0 for travel and G1 for extruding moves, regardless of Z height
+  - For rendering purposes, "layers" are collections of movements with no travels (G0) and the job is partitioned chronologically into segments
+  - Added option to "flatten" the job so the entire job is treated as a single layer for visualization
 - 1.0.3:
   - Fix problems where it wouldn't show up (due largely to stuff I still don't understand about replaces ViewModel)
   - Fix issue where single-layer model would vanish when clicking on the layer slider
