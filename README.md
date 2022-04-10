@@ -15,9 +15,18 @@ You may install through the plugin manager by installing from this URL:
 
   https://github.com/vector76/cnc_gcodeviewer/archive/main.zip
 
-Note: this replaces the native GCode Viewer.
+For the CNC GCode Viewer to work, you must disable the default built-in GCode Viewer.  This is done here 
+within the plugin manager:
+![image](https://user-images.githubusercontent.com/955138/162370849-d3e2f210-017f-4a64-b703-6f353e6adc39.png)
+
+A previous version attempted to use the "replaces ViewModel" approach to tweak the existing GCode 
+Viewer so it didn't need to be disabled.  Apparently I wasn't smart enough to get that to work without 
+problems, so now the built-in GCode Viewer plugin must be disabled.
 
 # Release notes
+- 1.0.3:
+  - Fix problems where it wouldn't show up (due largely to stuff I still don't understand about replaces ViewModel)
+  - Fix issue where single-layer model would vanish when clicking on the layer slider
 - 1.0.2:
   - Tolerates gcode without spaces between words
   - Produces a layer even if there are no Z movements (movements prior to any Z movements are treated as Z=0)
