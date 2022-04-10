@@ -34,6 +34,11 @@
 
             <p>
                 <label class="checkbox">
+                    <input type="checkbox" data-bind="checked: reader_ignoreOutsideBed">{{ _('Flatten') }} <span class="label">{{ _('Causes reload') }}</span>
+                </label>
+            </p>
+            <p>
+                <label class="checkbox">
                     <input type="checkbox" data-bind="checked: renderer_syncProgress">{{ _('Sync with job progress') }}
                 </label>
             </p>

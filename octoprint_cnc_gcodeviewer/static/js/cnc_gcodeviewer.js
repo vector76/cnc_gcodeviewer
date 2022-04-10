@@ -671,34 +671,16 @@ $(function () {
                         "mm"
                 );
                 output.push(
-                    gettext("Estimated layer height") +
-                        ": " +
-                        model.layerHeight.toFixed(2) +
-                        gettext("mm")
-                );
-                output.push(
                     gettext("Estimated total print time") +
                         ": " +
                         formatFuzzyPrintTime(model.printTime)
                 );
-                output.push(
-                    gettext("Layers with extrusion") +
-                        ": " +
-                        model.layersPrinted.toFixed(0)
-                );
-
                 self.ui_modelInfo(output.join("<br>"));
 
                 self.maxLayer = model.layersActive - 1;
                 if (self.layerSlider !== undefined) {
                     self.layerSlider.slider("enable");
-                    if (self.maxLayer >= 1) {
-                      self.layerSlider.slider("setMax", self.maxLayer);
-                    }
-                    else {
-                      // allows selecting nonexistent second layer but won't die with NaNs
-                      self.layerSlider.slider("setMax", 1);
-                    }
+                    self.layerSlider.slider("setMax", Math.max(self.maxLayer, 1));
                     self.layerSlider.slider("setValue", 0);
                     self.layerSelectionEnabled(true);
                     self.layerDownEnabled(false);
@@ -722,33 +704,8 @@ $(function () {
             } else {
                 var output = [];
                 output.push(gettext("Layer number") + ": " + (layer.number + 1));
-                output.push(gettext("Layer height") + " (mm): " + layer.height);
                 output.push(gettext("GCODE commands") + ": " + layer.commands);
-                if (layer.filament !== undefined) {
-                    if (layer.filament.length === 1) {
-                        output.push(
-                            gettext("Filament") +
-                                ": " +
-                                layer.filament[0].toFixed(2) +
-                                "mm"
-                        );
-                    } else {
-                        for (var i = 0; i < layer.filament.length; i++) {
-                            if (layer.filament[i] !== undefined) {
-                                output.push(
-                                    gettext("Filament") +
-                                        " (" +
-                                        gettext("Tool") +
-                                        " " +
-                                        i +
-                                        "): " +
-                                        layer.filament[i].toFixed(2) +
-                                        "mm"
-                                );
-                            }
-                        }
-                    }
-                }
+
                 output.push(
                     gettext("Estimated print time") +
                         ": " +

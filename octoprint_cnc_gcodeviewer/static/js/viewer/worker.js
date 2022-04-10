@@ -142,7 +142,8 @@ var bedBounds = function () {
 };
 
 var withinBedBounds = function (x, y, bedBounds) {
-    if (!ignoreOutsideBed) return true;
+    //if (!ignoreOutsideBed) return true;
+    return true;
 
     var result = true;
 
@@ -381,8 +382,10 @@ var doParse = function () {
 
     var i, j, args;
     
-    var lowest_z = 9999999;   // keep track of lowest z we've ever seen
-    var at_lowest_z = true; // are we currently at the lowest z ever?
+    var layer_z = 0;  // z as far as layers are concerned
+    var prev_layer_z = -1;  // detect changes in layer_z
+    
+    var prevg_extrude = false;
 
     model = [];
     for (i = 0; i < gcode.length; i++) {
@@ -397,7 +400,6 @@ var doParse = function () {
         var line = gcode[i].line;
         var percentage = gcode[i].percentage;
 
-        extrude = at_lowest_z;  // if we are at the lowest z ever, that counts as "extruding" for rendering purposes
         line = line.split(/[\(;]/)[0];
 
         if (!line || line.trim() === "") {
@@ -413,6 +415,14 @@ var doParse = function () {
         var log = false;
 
         if (/^(?:G0|G1|G2|G3|G00|G01|G02|G03)(\.\d+)?\s/i.test(line)) {
+            // rapids are treated as non-extruding, all others are extruding
+            extrude = !(/^(?:G0|G00)(\.\d+)?\s/i.test(line));
+            
+            if (extrude && !prevg_extrude) {
+              layer_z = layer_z + 1;
+            }
+            prevg_extrude = extrude;
+              
             args = line.split(/\s/);
 
             for (j = 0; j < args.length; j++) {
@@ -442,10 +452,6 @@ var doParse = function () {
                             z = Number(args[j].slice(1));
                         }
                         
-                        lowest_z = Math.min(lowest_z, z);  // potentially update lowest z ever
-                        at_lowest_z = z == lowest_z;  // maintain status if we are at lowest z
-                        extrude = at_lowest_z;        // update extrusion to match if we are at lowest z
-
                         break;
 
                     case "e":
@@ -637,38 +643,17 @@ var doParse = function () {
             if (!activeToolOffset) activeToolOffset = {x: 0, y: 0};
         }
 
-        // If move is on a new height and it's not extruding and
-        // it's not currently already in a Z-lift, assume it's possibly a Z-lift
-        if (typeof z !== "undefined" && z !== prevZ && !extrude && !zLift) {
-            zLift = true;
-            zLiftZ = prevZ;
-        }
-        // We're extruding, Z-lift is over
-        if (extrude) {
-            zLift = false;
-        }
+        zLift = false;  // no z-lift
 
-        if (typeof z !== "undefined" && z !== prevZ) {
-            if (z_heights[z] !== undefined) {
-                layer = z_heights[z];
-            } else {
+        if (layer_z != prev_layer_z) {
+            // got a "layer" change (new non-travel move)
+            if (layer_z == 0 || !ignoreOutsideBed) {
+                // perform layer change at very beginning or if not flattening
                 layer = model.length;
-                z_heights[z] = layer;
-            }
-
-            sendLayer = layer;
-            sendLayerZ = z;
-            prevZ = z;
-        } else if (typeof z === "undefined" && typeof prevZ !== "undefined") {
-            if (z_heights.hasOwnProperty(prevZ)) {
-                layer = z_heights[prevZ];
-            } else {
-                layer = model.length;
-                z_heights[prevZ] = layer;
-                if (layer == 0) {
-                    sendLayer = layer;
-                    sendLayerZ = prevZ;
-                }
+                z_heights[layer_z] = layer;
+                sendLayer = layer;
+                sendLayerZ = layer_z;
+                prev_layer_z = layer_z;
             }
         }
 
