@@ -24,6 +24,8 @@ Viewer so it didn't need to be disabled.  Apparently I wasn't smart enough to ge
 problems, so now the built-in GCode Viewer plugin must be disabled.
 
 # Release notes
+- 1.1.0:
+  - Now includes avltree.js (since OctoPrint 1.8 had removed it)
 - 1.0.4:
   - No longer uses "lowest Z" to determine "extruding" (black) vs. travel (green) movements
   - Now treats G0 for travel and G1 for extruding moves, regardless of Z height

@@ -20,6 +20,7 @@ class CncGcodeviewerPlugin(
             "js/viewer/ui.js",
             "js/viewer/reader.js",
             "js/viewer/renderer.js",
+            "js/viewer/avltree.js",
         ]
 
         return {
