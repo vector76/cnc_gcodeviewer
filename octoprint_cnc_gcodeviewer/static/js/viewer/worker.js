@@ -325,7 +325,7 @@ var gcode_split_rejoin = function(line) {
   line = line.trim().toUpperCase();
   var parts = [];
   // tolerates with or without spaces between words, but does not handle bizarre spacing like 'X3. 1415'
-  var matches = line.match(/^([A-Z]\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
+  var matches = line.match(/^([A-Z](?:-)?\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
   while (matches) {
     parts.push(matches[1]);
     line = matches[2];  // second matching group is the rest of the line
@@ -333,7 +333,7 @@ var gcode_split_rejoin = function(line) {
     if (line == "") {
       break;
     }
-    matches = line.match(/^([A-Z]\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
+    matches = line.match(/^([A-Z](?:-)?\d+(?:\.\d+)?)(?:\s+)?(.*)$/);
   }
 
   if (line != "") {
