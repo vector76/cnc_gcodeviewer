@@ -426,6 +426,14 @@ var doParse = function () {
             args = line.split(/\s/);
 
             for (j = 0; j < args.length; j++) {
+                if (args[j] === "G91") {
+                    relativeMode = true;
+                    continue;
+                }
+                if (args[j] === "G90") {
+                    relativeMode = false;
+                    continue;
+                }
                 switch ((argChar = args[j].charAt(0).toLowerCase())) {
                     case "x":
                         if (relativeMode) {
